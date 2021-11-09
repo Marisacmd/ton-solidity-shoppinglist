@@ -23,7 +23,7 @@ contract commons is ShoppingListDebot {
     function showPurchases__(Purchase[] purchases) public {
         uint32 i;
         if (purchases.length > 0) {
-            Terminal.print(0, "Your tasks list:");
+            Terminal.print(0, "Your shopping list:");
             for (i = 0; i < purchases.length; i++) {
                 Purchase purchase = purchases[i];
                 string completed;
