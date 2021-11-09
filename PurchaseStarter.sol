@@ -1,4 +1,4 @@
-pragma ton - solidity >= 0.35 .0;
+pragma ton-solidity >= 0.35.0;
 pragma AbiHeader expire;
 pragma AbiHeader time;
 pragma AbiHeader pubkey;
@@ -41,7 +41,7 @@ contract PurchaseStarter is ShoppingListDebot, commons {
     }
 
     function createPurchase__(string value) public {
-     (uint256 num, ) = stoi(value);
+        (uint256 num, ) = stoi(value);
         amount = uint(num);
         optional(uint256) pubkey = 0;
         IPurchase(m_address).createPurchase {
