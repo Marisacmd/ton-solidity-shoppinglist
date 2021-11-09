@@ -81,28 +81,7 @@ contract PurchaseFinisher is ShoppingListDebot, commons {
     }
 
     function deletePurchase(uint32 index) public {
-
-        index = index;
-        if (m_stat.completeCount + m_stat.incompleteCount > 0) {
-            Terminal.input(tvm.functionId(deletePurchase_), "Enter purchase number:", false);
-        } else {
-            Terminal.print(0, "Sorry, you have no items to delete");
-            _menu();
-        }
+        deletePurchase_(p_address, index);
     }
 
-    function deletePurchase_(string value) public view {
-        (uint256 num, ) = stoi(value);
-        optional(uint256) pubkey = 0;
-        IPurchase(p_address).deletePurchase {
-            abiVer: 2,
-            extMsg: true,
-            sign: true,
-            pubkey: pubkey,
-            time: uint64(now),
-            expire: 0,
-            callbackId: tvm.functionId(onSuccess),
-            onErrorId: tvm.functionId(onError)
-        }(uint32(num));
-    }
 }

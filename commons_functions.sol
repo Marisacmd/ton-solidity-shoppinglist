@@ -40,4 +40,38 @@ contract commons is ShoppingListDebot {
         _menu();
     }
 
+   address l_address;
+
+        function deletePurchase_(address addr, uint32 index) public {
+        l_address = addr;
+        deletePurchase__(index);
+    }
+
+
+    function deletePurchase__(uint32 index) public {
+
+        index = index;
+        if (m_stat.completeCount + m_stat.incompleteCount > 0) {
+            Terminal.input(tvm.functionId(deletePurchase___), "Enter purchase index:", false);
+        } else {
+            Terminal.print(0, "Sorry, you have no items to delete");
+            _menu();
+        }
+    }
+
+    function deletePurchase___(string value) public view {
+        (uint256 num, ) = stoi(value);
+        IPurchase(l_address).deletePurchase {
+            abiVer: 2,
+            extMsg: true,
+            sign: true,
+            pubkey: m_masterPubKey,
+            time: uint64(now),
+            expire: 0,
+            callbackId: tvm.functionId(onSuccess),
+            onErrorId: tvm.functionId(onError)
+        }(uint32(num));
+    }
+
+
 }

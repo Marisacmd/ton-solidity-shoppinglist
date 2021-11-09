@@ -43,14 +43,6 @@
 			]
 		},
 		{
-			"name": "deletePurchase_",
-			"inputs": [
-				{"name":"value","type":"bytes"}
-			],
-			"outputs": [
-			]
-		},
-		{
 			"name": "showPurchases_",
 			"inputs": [
 				{"name":"ListAddress","type":"address"}
@@ -62,6 +54,31 @@
 			"name": "showPurchases__",
 			"inputs": [
 				{"components":[{"name":"id","type":"uint32"},{"name":"name","type":"bytes"},{"name":"amount","type":"uint256"},{"name":"price","type":"uint256"},{"name":"createdAt","type":"uint64"},{"name":"isDone","type":"bool"}],"name":"purchases","type":"tuple[]"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deletePurchase_",
+			"inputs": [
+				{"name":"addr","type":"address"},
+				{"name":"index","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deletePurchase__",
+			"inputs": [
+				{"name":"index","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deletePurchase___",
+			"inputs": [
+				{"name":"value","type":"bytes"}
 			],
 			"outputs": [
 			]

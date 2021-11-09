@@ -19,6 +19,31 @@
 			]
 		},
 		{
+			"name": "deletePurchase_",
+			"inputs": [
+				{"name":"addr","type":"address"},
+				{"name":"index","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deletePurchase__",
+			"inputs": [
+				{"name":"index","type":"uint32"}
+			],
+			"outputs": [
+			]
+		},
+		{
+			"name": "deletePurchase___",
+			"inputs": [
+				{"name":"value","type":"bytes"}
+			],
+			"outputs": [
+			]
+		},
+		{
 			"name": "setPurchaseCode",
 			"inputs": [
 				{"name":"code","type":"cell"},
