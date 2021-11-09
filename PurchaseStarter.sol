@@ -40,8 +40,9 @@ contract PurchaseStarter is ShoppingListDebot, commons {
         Terminal.input(tvm.functionId(createPurchase__), "Please enter amount of items in purchase", false);
     }
 
-    function createPurchase__(uint value) public {
-        amount = value;
+    function createPurchase__(string value) public {
+     (uint256 num, ) = stoi(value);
+        amount = uint(num);
         optional(uint256) pubkey = 0;
         IPurchase(m_address).createPurchase {
             abiVer: 2,
