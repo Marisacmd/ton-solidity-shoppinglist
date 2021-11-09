@@ -157,12 +157,11 @@ contract ShoppingListDebot is Debot, Upgradable {
         creditAccount(m_msigAddress);
     }
 
-
     function waitBeforeDeploy() public {
-        Sdk.getAccountType(tvm.functionId(checkIfAccountExist), m_address);
+        Sdk.getAccountType(tvm.functionId(checkIfAccountExists), m_address);
     }
 
-    function checkIfAccountExist(int8 acc_type) public {
+    function checkIfAccountExists(int8 acc_type) public {
         if (acc_type == 0) {
             deploy();
         } else {

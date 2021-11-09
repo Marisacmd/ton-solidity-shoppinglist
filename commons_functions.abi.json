@@ -142,7 +142,7 @@
 			]
 		},
 		{
-			"name": "checkIfAccountExist",
+			"name": "checkIfAccountExists",
 			"inputs": [
 				{"name":"acc_type","type":"int8"}
 			],
