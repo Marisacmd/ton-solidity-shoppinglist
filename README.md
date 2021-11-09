@@ -1,4 +1,4 @@
-# ton-solidity-shoppinglist
+# scrollspeech_balloon ton-solidity-shoppinglist
 TONOS based DeBot with CRUD logic, demonstrates basic user-contract interaction using DeBots paradigm. 
 
 # Deploy
