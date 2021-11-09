@@ -1,76 +1,88 @@
-pragma ton-solidity >= 0.35.0;
+pragma ton - solidity >= 0.35 .0;
 pragma AbiHeader expire;
+pragma AbiHeader time;
 pragma AbiHeader pubkey;
-import "commons_variables.sol";
+import "ShoppingListDebot.sol";
+import "commons_functions.sol";
 
-contract ShoppingList is commons_variables {
+contract PurchaseStarter is ShoppingListDebot, commons {
 
-    uint32 m_count;
-    uint256 m_ownerPubkey;
+    string name;
+    uint amount;
 
-    mapping(uint32 => Purchase) m_purchases;
-
-    modifier onlyOwner() {
-        require(msg.pubkey() == m_ownerPubkey, 101);
-        _;
+    function _menu() internal override {
+        string sep = '----------------------------------------';
+        Menu.select(
+            format(
+                "You have {}/{}/{} (todo/done/total) purchases",
+                m_stat.incompleteCount,
+                m_stat.completeCount,
+                m_stat.completeCount + m_stat.incompleteCount
+            ),
+            sep,
+            [
+                MenuItem("Start new purchase", "", tvm.functionId(createPurchase)),
+                MenuItem("Show purchases list", "", tvm.functionId(showPurchases)),
+                MenuItem("Delete purchase", "", tvm.functionId(deletePurchase))
+            ]
+        );
     }
 
-
-    constructor(uint256 pubkey) public {
-        require(pubkey != 0, 120);
-        tvm.accept();
-        m_ownerPubkey = pubkey;
+    function createPurchase(uint32 index) public {
+        index = index;
+        Terminal.input(tvm.functionId(createPurchase_), "Please enter purchase name", false);
     }
 
-    function createPurchase(string name, uint amount) public onlyOwner {
-        tvm.accept();
-        m_count++;
-        m_purchases[m_count] = Purchase(m_count, name, amount, 0, now, false);
+    function createPurchase_(string value) public {
+        uint32 index;
+        index = index;
+        name = value;
+        Terminal.input(tvm.functionId(createPurchase__), "Please enter amount of items in purchase", false);
     }
 
-    function updatePurchase(uint32 id, bool done, uint price) public onlyOwner {
-        require(m_purchases.exists(id), 102);
-        tvm.accept();
-        Purchase purchase = m_purchases[id];
-        purchase.isDone = done;
-        purchase.price = price;
-        m_purchases[id] = purchase;
+    function createPurchase__(uint value) public {
+        amount = value;
+        optional(uint256) pubkey = 0;
+        IPurchase(m_address).createPurchase {
+            abiVer: 2,
+            extMsg: true,
+            sign: true,
+            pubkey: pubkey,
+            time: uint64(now),
+            expire: 0,
+            callbackId: tvm.functionId(onSuccess),
+            onErrorId: tvm.functionId(onError)
+        }(name, amount);
     }
 
-    function deletePurchase(uint32 id) public onlyOwner {
-        require(m_purchases.exists(id), 102);
-        tvm.accept();
-        delete m_purchases[id];
+    function showPurchases(uint32 index) public {
+        showPurchases_(m_address);
     }
 
-    function getPurchases() public view returns(Purchase[] purchases) {
-        string name;
-        uint amount;
-        uint64 createdAt;
-        bool isDone;
-        uint price;
+    function deletePurchase(uint32 index) public {
 
-        for ((uint32 id, Purchase purchase): m_purchases) {
-            name = purchase.name;
-            isDone = purchase.isDone;
-            createdAt = purchase.createdAt;
-            amount = purchase.amount;
-            price = purchase.price;
-            purchases.push(Purchase(id, name, amount, price, createdAt, isDone));
+        index = index;
+        if (m_stat.completeCount + m_stat.incompleteCount > 0) {
+            Terminal.input(tvm.functionId(deletePurchase_), "Enter purchase index:", false);
+        } else {
+            Terminal.print(0, "Sorry, you have no items to delete");
+            _menu();
         }
     }
 
-    function getStat() public view returns(Stat stat) {
-        uint32 completeCount;
-        uint32 incompleteCount;
-
-        for ((, Purchase purchase): m_purchases) {
-            if (purchase.isDone) {
-                completeCount++;
-            } else {
-                incompleteCount++;
-            }
-        }
-        stat = Stat(completeCount, incompleteCount);
+    function deletePurchase_(string value) public view {
+        (uint256 num, ) = stoi(value);
+        optional(uint256) pubkey = 0;
+        IPurchase(m_address).deletePurchase {
+            abiVer: 2,
+            extMsg: true,
+            sign: true,
+            pubkey: pubkey,
+            time: uint64(now),
+            expire: 0,
+            callbackId: tvm.functionId(onSuccess),
+            onErrorId: tvm.functionId(onError)
+        }(uint32(num));
     }
+
 }
