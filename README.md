@@ -11,7 +11,7 @@ There is main DeBot contract (ShoppingListDebot.sol) and two inheriting contract
 
 Both of them are CRUD. The first contract has a Create option from CRUD. The second DeBot works with a ready-made contract and has the Update function as the main one. To deploy the Finisher contract, the constructor of the 2nd contract accepts the address of the ShoppingList created by the first contract. 
 
-2. Deploy instructions
+2. Launch on DevNet
 
 Actual version:
 2 debots:
@@ -23,5 +23,5 @@ Actual version:
 
 1. Expand functionality.
 2. Continue the division of the code into frequently used files (commons, common_functions etc.) and "code users".
-3. Add autodeploy (.sh).
+3. Add autodeploy (.sh) + add deploy instructions
 4. Track and fix possible bugs. 
