@@ -13,7 +13,11 @@ Both of them are CRUD. The first contract has a Create option from CRUD. The sec
 
 2. Deploy instructions
 
-todo
+Actual version:
+2 debots:
+
+[Purchase starter](https://web.ton.surf/debot?address=0%3Af96034ef8b5019de55f482bd331481ea480a9ded8bd1dbd8c7bb98757abfa439&net=devnet)
+[Purchase finisher](https://web.ton.surf/debot?address=0%3A7cf3b6119827f6c62eb355d73afe102267c2a7f2d31fb79a0324f65570b63e2f&net=devnet)
 
 # ToDo plans
 
