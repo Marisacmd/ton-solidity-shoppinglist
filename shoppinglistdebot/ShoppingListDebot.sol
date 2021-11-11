@@ -10,6 +10,8 @@ import "../AddressInput.sol";
 import "../ConfirmInput.sol";
 import "../Upgradable.sol";
 import "../Sdk.sol";
+import "ITransactable.sol";
+import "HasConstructorWithPubKey.sol";
 
 struct Purchase {
     uint32 id;
@@ -25,14 +27,6 @@ struct Stat {
     uint32 incompleteCount;
 }
 
-interface IMsig {
-    function sendTransaction(address dest, uint128 value, bool bounce, uint8 flags, TvmCell payload) external;
-}
-
-abstract contract APurchase {
-    constructor(uint256 pubkey) public {}
-}
-
 interface IPurchase {
     function createPurchase(string name, uint amount) external;
     function updatePurchase(uint32 id, bool done, uint price) external;
@@ -40,7 +34,6 @@ interface IPurchase {
     function getPurchases() external returns(Purchase[] purchases);
     function getStat() external returns(Stat);
 }
-
 
 contract ShoppingListDebot is Debot, Upgradable {
     bytes m_icon;
@@ -139,7 +132,7 @@ contract ShoppingListDebot is Debot, Upgradable {
         m_msigAddress = value;
         optional(uint256) pubkey = 0;
         TvmCell empty;
-        IMsig(m_msigAddress).sendTransaction {
+        ITransactable(m_msigAddress).sendTransaction {
             abiVer: 2,
             extMsg: true,
             sign: true,
@@ -184,7 +177,7 @@ contract ShoppingListDebot is Debot, Upgradable {
             pubkey: none,
             stateInit: image,
             call: {
-                APurchase,
+                HasConstructorWithPubKey,
                 m_masterPubKey
             }
         });
